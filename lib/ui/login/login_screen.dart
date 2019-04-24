@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_example/utils/injector.dart';
 import 'package:flutter_bloc_example/repository/user_repository.dart';
 import 'package:flutter_bloc_example/ui/login/login_form.dart';
 import 'package:flutter_bloc_example/bloc/authentication_bloc.dart';
@@ -8,21 +9,19 @@ import 'package:flutter_bloc_example/bloc/login_bloc.dart';
 import 'package:flutter_bloc_example/common/my_colors.dart';
 
 class LoginScreen extends StatefulWidget {
-  final UserRepository userRepository;
 
-  LoginScreen({Key key, @required this.userRepository})
-      : assert(userRepository != null),
-        super(key: key);
-
+  LoginScreen({Key key}) : super(key: key);
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   LoginBloc _loginBloc;
+
   AuthenticationBloc _authenticationBloc;
 
-  UserRepository get _userRepository => widget.userRepository;
+  UserRepository _userRepository = Injector.userRepository();
 
   @override
   void initState() {
