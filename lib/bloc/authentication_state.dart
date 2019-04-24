@@ -24,12 +24,3 @@ class AuthenticationLoading extends AuthenticationState {
   @override
   String toString() => 'AuthenticationLoading';
 }
-
-class AuthenticationFailure extends AuthenticationState {
-  final String error;
-
-  AuthenticationFailure({@required this.error}) : super([error]);
-
-  @override
-  String toString() => 'AuthenticationFailure { error: $error }';
-}

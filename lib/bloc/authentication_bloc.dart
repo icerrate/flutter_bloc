@@ -2,27 +2,31 @@ import 'dart:async';
 
 import 'package:flutter_bloc_example/bloc/authentication_event.dart';
 import 'package:flutter_bloc_example/bloc/authentication_state.dart';
-import 'package:flutter_bloc_example/repository/session_repository.dart';
+import 'package:flutter_bloc_example/repository/user_repository.dart';
+import 'package:flutter_bloc_example/model/session.dart';
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 
-class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final SessionRepository sessionRepository;
+class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
 
-  AuthenticationBloc (this.sessionRepository);
+  final UserRepository userRepository;
+
+  Session session;
+
+  AuthenticationBloc ({@required this.userRepository}): assert(userRepository != null);
 
   @override
   AuthenticationState get initialState => AuthenticationUninitialized();
 
   @override
   Stream<AuthenticationState> mapEventToState(
-      AuthenticationState currentState,
-      AuthenticationEvent event,
-      ) async* {
+      AuthenticationState state,
+      AuthenticationEvent event) async* {
     if (event is AppStarted) {
-      //final bool hasToken = await userRepository.hasToken();
-      bool hasToken = true;
-      if (hasToken) {
+      final bool hasSession = await userRepository.hasSession();
+
+      if (hasSession) {
+        session = await userRepository.getSession();
         yield AuthenticationAuthenticated();
       } else {
         yield AuthenticationUnauthenticated();
@@ -31,13 +35,14 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
-      //await userRepository.persistToken(event.token);
+      await userRepository.persistSession(event.id, event.username, event.name, event.apiKey);
+      session = await userRepository.getSession();
       yield AuthenticationAuthenticated();
     }
 
     if (event is LoggedOut) {
       yield AuthenticationLoading();
-      //await userRepository.deleteToken();
+      await userRepository.deleteSession();
       yield AuthenticationUnauthenticated();
     }
   }

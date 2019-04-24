@@ -1,57 +1,37 @@
 import 'package:flutter/material.dart';
 
-class TextField extends StatelessWidget {
-  final String hint;
-  final Widget child;
-  final FormElementOrientation orientation;
-  static EdgeInsets contentPadding;
+class MyFormField extends StatelessWidget {
 
-  TextField(
-      {this.hint,
-        this.child,
-        EdgeInsets contentPadding,
-        this.orientation = FormElementOrientation.vertical}) {
-    if (contentPadding == null) {
-      switch (orientation) {
-        case FormElementOrientation.horizontal:
-          contentPadding = EdgeInsets.only(left: 8.0);
-          break;
-        default:
-          contentPadding = EdgeInsets.only(top: 8.0);
-          break;
-      }
-    }
-  }
+  final String hint;
+
+  final TextEditingController controller;
+
+  final EdgeInsets contentPadding;
+
+  final bool obscureText;
+
+  MyFormField({this.hint, this.controller, this.contentPadding, this.obscureText});
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
-    contentPadding = EdgeInsets.only(top: 0.0, left: 0.0);
-    if (hint != null) {
-      if (orientation == FormElementOrientation.horizontal) {
-        return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(hint, style: textStyle),
-              Padding(
-                padding: contentPadding,
-                child: child,
-              )
-            ]);
-      }
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(hint, style: textStyle),
-          Padding(
-            padding: contentPadding,
-            child: child,
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: hint,
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+            )
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 2
           )
-        ],
-      );
-    }
-    return child;
+        ),
+        contentPadding: contentPadding
+      ),
+      controller: controller,
+      obscureText: obscureText,
+    );
   }
 }
-
-enum FormElementOrientation { horizontal, vertical }

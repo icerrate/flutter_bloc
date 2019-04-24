@@ -1,17 +1,17 @@
 class Session {
   String id;
-  String apiKey;
   String name;
-  String username;
+  String level;
+  String points;
 
-  Session({this.id, this.apiKey, this.name, this.username});
+  Session({this.id, this.name, this.level, this.points});
 
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
         id: json['id'],
-        apiKey: json['api_key'],
         name: json['name'],
-        username: json['username']
+        level: json['level'],
+        points: json['points']
     );
   }
 }

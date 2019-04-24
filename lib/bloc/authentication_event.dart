@@ -11,13 +11,16 @@ class AppStarted extends AuthenticationEvent {
 }
 
 class LoggedIn extends AuthenticationEvent {
+  final String id;
   final String username;
+  final String name;
   final String apiKey;
 
-  LoggedIn({@required this.username, @required this.apiKey}) : super([username, apiKey]);
+  LoggedIn({@required this.id, @required this.username,
+    @required this.name, @required this.apiKey}) : super([id, username, name, apiKey]);
 
   @override
-  String toString() => 'LoggedIn { apiKey: $apiKey }';
+  String toString() => 'LoggedIn { username : $username name : $name apiKey: $apiKey }';
 }
 
 class LoggedOut extends AuthenticationEvent {

@@ -1,19 +1,22 @@
 import 'package:meta/meta.dart';
 import 'package:flutter_keychain/flutter_keychain.dart';
-import 'package:flutter_bloc_example/provider/session_api.dart';
+import 'package:flutter_bloc_example/provider/user_api.dart';
 import 'package:flutter_bloc_example/model/session.dart';
 import 'package:flutter_bloc_example/model/login.dart';
-import 'package:flutter_bloc_example/utils/status.dart';
 
-class SessionRepository {
+class UserRepository {
+
+  static String idKey = "id_key";
 
   static String usernameKey = "username_key";
 
+  static String nameKey = "name_key";
+
   static String apiKeyKey = "apikey_key";
 
-  SessionApi sessionApi;
+  UserApi sessionApi;
 
-  SessionRepository({@required this.sessionApi});
+  UserRepository({@required this.sessionApi});
 
   Future<Session> authenticate({
     @required String email,
@@ -21,28 +24,23 @@ class SessionRepository {
   }) async {
     print("authenticate()");
     Login login = Login(email: email, password: password);
-    final resource = await sessionApi.login(login);
-    switch (resource.status) {
-      case Status.ERROR:
-        print(resource.message);
-        break;
-      default:
-        print(resource.code);
-        break;
-    }
-    return resource.data;
+    return await sessionApi.login(login);
   }
 
   Future<void> deleteSession() async {
     /// delete from keystore/keychain
+    await FlutterKeychain.remove(key: idKey);
     await FlutterKeychain.remove(key: usernameKey);
+    await FlutterKeychain.remove(key: nameKey);
     await FlutterKeychain.remove(key: apiKeyKey);
     return;
   }
 
-  Future<void> persistSession(String username, String apiKey) async {
+  Future<void> persistSession(String id, String username, String name, String apiKey) async {
     /// write to keystore/keychain
+    await FlutterKeychain.put(key: idKey, value: id);
     await FlutterKeychain.put(key: usernameKey, value: username);
+    await FlutterKeychain.put(key: nameKey, value: name);
     await FlutterKeychain.put(key: apiKeyKey, value: apiKey);
     return;
   }
@@ -55,8 +53,10 @@ class SessionRepository {
 
   Future<Session> getSession() async {
     /// read from keystore/keychain
-    String username = await FlutterKeychain.get(key: apiKeyKey);
+    String id = await FlutterKeychain.get(key: idKey);
+    String username = await FlutterKeychain.get(key: usernameKey);
+    String name = await FlutterKeychain.get(key: nameKey);
     String apiKey = await FlutterKeychain.get(key: apiKeyKey);
-    return Session(username: username, apiKey: apiKey);
+    return Session(id: id, username: username, name: name, apiKey: apiKey);
   }
 }
