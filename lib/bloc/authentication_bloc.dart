@@ -36,7 +36,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await userRepository.persistSession(event.id, event.username, event.name, event.apiKey);
-      session = await userRepository.getSession();
+      session = Session(id: event.id, username: event.username, name: event.name, apiKey: event.apiKey);
       yield AuthenticationAuthenticated();
     }
 

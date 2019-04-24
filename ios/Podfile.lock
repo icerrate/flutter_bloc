@@ -34,13 +34,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  flutter_keychain: 530f94c0ad5765e61f8aa4c33b2efa5ef0bcc713
-  intro_slider: 961a06956afdbaeaafb8488269b52eae4f866dbb
-  package_info: d7c98b64f60add4c2908b9d94d82a45d3c8827ad
-  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
-  url_launcher: 92b89c1029a0373879933c21642958c874539095
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_keychain: 01aabf894ffe8b01adfda1d9df21c210c1b4b452
+  intro_slider: 85847639533bfd8e898d76844e0aa2cf412ee190
+  package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
